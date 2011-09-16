@@ -1,0 +1,229 @@
+=head1 NAME
+
+Overview of the Disaster Recovery and Automated Failover Test system (DRAFT)
+
+=head1 DESCRIPTION
+
+This document provides an introduction and an overview of B<DRAFT> with links
+to further documentation.
+
+Most of the documentation is in POD form however there are a few documents
+in Word and Visio format which can be found in the B<document> directory.
+
+=head1 Overview
+
+=begin html
+
+<img src="../documents/application_layout.png" alt=""\>
+
+=end html
+
+The design splits DRAFT into two systems, a B<Controller> and an B<Agent>. Software
+for the two components are packaged together.
+
+A component (a Controller and it's corresponding Agents) performs a specific
+action, for example it may start or stop an application or process or take a
+storage device off-line. Each component is given it's own namespace based on
+it's function.
+
+Controllers and their corresponding Agents are highly compenentised and use a
+plugin system to allow the expansion of new components without having to make
+any modifications to existing code.
+
+Controllers and Agents can either be on the same system or on different one's.
+When the Controller and the Agent are on different systems they communicate
+via a Transport Layer. The transport layer is transparent to the component using
+it. Different transport layers can be used depending upon circumstances.
+
+A B<Workflow> layer and an B<Application> layer sit above the Controllers.
+
+The B<Workflow> layer is responsible for co-ordinating the sequence of events
+to make a changeover of a production system to it's disaster recovery configuration
+or vice-versa.
+
+The B<Application> layer initialises the various components required by the
+Workflow.
+
+The Workflow layer can be controlled by a B<Web API> to initialize a failover
+test and to obtain the results. Some of this functionality can also be carried
+out via a B<Command Line Interface>
+
+Finally, most of the parameters required by the system are obtained by an
+interface to the B<A2RM> system.
+
+Refer to the file documents/application_layout.vsd for a basic diagram of the
+system.
+
+=head1 Example Controller and Agent
+
+The following is an example plugin for a Controller and an Agent. This example
+shows a component that can start or stop an application on a Linux system.
+
+=head2 Controller
+
+    package Nomura::DRAFT::Controller::Plugin::App::Control;
+    use Moose;
+
+    extends 'Nomura::DRAFT::Controller::Plugin';
+
+    1;
+
+This is the simplest definition of a Controller, but nevertheless it it a
+working one. There are no methods defined in the controller (although there
+could be) since in this example all code is executed on the Agent side.
+
+All Controllers are in the namespace Nomura::DRAFT::Controller::Plugin and
+must be created as OO Code using the cpan module L<Moose>. Most of the heavy
+lifting and shifting is carried out in X<lib/Nomura/DRAFT/Controller/Plugin.pm>.
+
+=head2 Agent
+
+    package Nomura::DRAFT::Agent::Linux::Plugin::App::Control;
+
+    use Moose::Role;
+
+    # Start an application
+    sub start {
+        my ($self) = @_;
+
+        my $app     = $self->data->app_name;
+        my $ret_val = system("/etc/init.d/$app start");
+        $self->data->status($ret_val);
+    }
+
+    # Stop an application
+    sub stop {
+        my ($self) = @_;
+
+        my $app     = $self->data->app_name;
+        my $ret_val = system("/etc/init.d/$app stop");
+        $self->data->status($ret_val);
+    }
+    1;
+
+Again this is a simple example, with little error checking and no B<dry_run>
+facility, it simply relies
+on making a system call to start or stop the specified application. The return
+status is then put into the shared data structure (see below) to be returned
+to the controller.
+
+In this case the base namespace is Nomura::DRAFT::Agent::Linux::Plugin since
+the Agent is specific to the Linux operating system. A Windows version of this
+agent would be in the namespace Nomura::DRAFT::Agent::Windows::Plugin
+
+=head2 Shared Data
+
+Communication between the Controller and the Agent is via a shared data structure.
+
+    package Nomura::DRAFT::SharedData::App::Control;
+
+    use Moose;
+
+    extends 'Nomura::DRAFT::SharedData';
+
+    # Name of application
+    has 'app_name'  => (
+        is          => 'rw',
+        isa         => 'Str',
+        required    => 1,
+    );
+    1;
+
+This is a very simple example, the only data shared between the Controller and
+the Agent is the name of the application. Again this module has to be defined
+using the L<Moose> OO framework and it must B<extend 'X<lib/Nomura/DRAFT/SharedData.pm>'>
+and be in that namespace.
+
+Nomura::DRAFT::SharedData, it's parent class, defines a few other attributes,
+such as the B<status> field shown above in the code for an Agent, a B<log>
+field, a B<dry_run> field (which should be used to do everything except execute
+any changes to the system). These will be described in greater detail later.
+
+=head2 Application code
+
+The Application layer would normally carry out any initialisation of the
+Controller object and the calling of the start and stop methods, but for the
+purpose of this example there is no reason why we could not call them directly.
+
+    #!/usr/bin/perl
+
+    use Moose;
+
+    use Nomura::DRAFT::SharedData::App::Control;
+    use Nomura::DRAFT::Transport::Socket::Controller;
+    use Nomura::DRAFT::ServerFactory;
+
+    # Create a socket based transport layer
+    my $transport = Nomura::DRAFT::Transport::Socket::Controller->new({
+        local_host      => 'lonlx20575',
+        peer_port       => 55543,
+        peer_address    => 'lonlx20575',
+    });
+
+    # Set the shared data
+    my $shared_data = Nomura::DRAFT::SharedData::App::Control->new({
+        app_name    => 'myapp',
+    });
+
+    my $controller = Nomura::DRAFT::ServerFactory->create('App::Control', {
+        transport       => $transport,
+        data            => $shared_data,
+        verbs           => [qw(start stop)],
+    });
+
+This example initialises a transport layer, the shared data for use by both the
+controller and the agents and the controller itself.
+
+The B<verbs> part of the initialization define what methods can be called across
+the transport layer. Any verbs defined during the creation of the Controller
+are vivified on the Controller object and automatically made available across
+the transport layer to the Agent.
+
+For example, having created a Controller as above we can call the 'start' verb.
+
+    if ($controller->start == 0) {
+        print "Application ".$controller->data->app_name." started correctly\n";
+    }
+    else {
+        print "ERROR: the application failed to start. ".$application->data->log;
+    }
+    $transport->quit;
+
+Assuming that the Controller and the Agent are on different machines, the sequence
+of events is as follows.
+
+=over 4
+
+=item B<start> is called in the controller.
+
+=item the transport layer will serialize the shared data and transmit it to the Agent
+
+=item the transport layer on the Agent will deserialize the shared data,
+and instantiate an Agent object.
+
+=item the B<start> method of the Agent is called where the work is done as seen
+in the above example. During this process the shared data may be modified.
+
+=item on returning from the Agent B<start> method, the shared data is re-serialized
+on the Agent and de-serialized on the Controller.
+
+=item the Controller code can now continue execution, checking the status of the
+shared data and printing any log information that may have been gathered.
+
+=item either more B<verbs> can be called on this connection, or when finished the
+transport layer can be told to B<quit> which will close the connection between the
+Controller and the Agent.
+
+=back
+
+=head1 AUTHOR
+
+Ian Docherty ian.docherty@nomura.com
+
+=head1 LICENSE
+
+Copyright (c) 2001-2011 Nomura Holdings, Inc. All rights reserved.
+
+=cut
+1;
+

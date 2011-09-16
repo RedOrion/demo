@@ -1,0 +1,10 @@
+
+ideas for the transport layer
+
+use Net::Stomp (Ash Berlin)
+
+use FSA::Rule (as an alternative to MooseX::DFA::Simple
+
+
+
+

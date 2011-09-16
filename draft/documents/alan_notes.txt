@@ -1,0 +1,12 @@
+
+
+TOC approval Technical Operation Centre
+
+second screen to ask for approval, accept/deny with comment
+back on first screen
+
+look at defining the meta language serial/parallel.
+look at QIP
+
+systems can be active/active or active/passive, active/active does not require a failover, it does it automatically.
+

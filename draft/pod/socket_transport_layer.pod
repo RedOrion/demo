@@ -1,0 +1,121 @@
+=head1 NAME
+
+Socket transport layer
+
+=head1 DESCRIPTION
+
+This describes the approach taken by the Socket Transport Layer.
+
+Also refer to the POD contained in the code that implements the Socket Transport
+layer X<lib/Nomura/DRAFT/Transport/Socket/Controller.pm> and
+X<lib/Nomura/DRAFT/Transport/Socket/Agent.pm> which will be more detailed.
+
+=head1 OVERVIEW
+
+Controllers communicate with their respective Agents through the Transport layer.
+
+The impementation of the Transport layer is transparent to the Controllers and
+the Agents. This document describes a transport layer which makes use of
+Sockets.
+
+=head1 PROTOCOL
+
+A very simple exchange between the Controller and and Agent could be as follows. Note that the C:
+(for Controller) and A: (for Agent) are not part of the protocol.
+
+    C: HELLO lonlx20575
+    A: OK HELLO
+    C: COMMAND App::Control->start
+    A: OK COMMAND
+    C: DATA {"__CLASS__":"Nomura::DRAFT::SharedData::App::Control","app_name":"foo","status":"0"}
+    C: .
+    A: OK DATA
+    A: RESPONSE
+    A: DATA {"__CLASS__":"Nomura::DRAFT::SharedData::App::Control","app_name":"foo","status":"1"}
+    A: .
+    C: OK RESPONSE
+    C: QUIT
+    A: OK QUIT
+
+The Controllers and the Agents are coded using a Deterministic Finite State Automata (DFA)
+implemented by the X<lib/MooseX/DFA/Simple.pm> module.
+
+The state diagram for the Controller can be found in documents/socket_controller_state_diagram.vsd
+
+The state diagram for the Agent can be found in documents/socket_agent_state_diagram.vsd
+
+=head1 CONTROLLER
+
+Construction of a controller is carried out as follows.
+
+    my $controller = Nomura::DRAFT::ServerFactory->create('App::Control', {
+        transport       => $transport,
+        data            => $shared_data,
+        verbs           => [qw(start stop)],
+    });
+
+Where B<$transport> is a X<lib/Nomura/DRAFT/Transport/Socket/Controller.pm> object and data
+is a sub-class of X<lib/Nomura/DRAFT/SharedData.pm>
+
+The B<verbs> represent the methods in the Agent that can be called across the Transport layer.
+
+The X<lib/Nomura/DRAFT/ServerFactory.pm> factory class will create a new controller instance and
+automatically create methods in the class for each of the verbs. Calling the verb is exactly
+the same as calling a method on the controller class.
+
+    if ($controller->start) {
+        print "The application started\n";
+    }
+    else {
+        print "ERROR: the application failed to start\n";
+    }
+
+except that the method takes no parameters. All data passed between the Controller and the
+Agent must be passed through the shared data.
+
+All Agents return the status of the action (success or fail) which can be tested in the
+Controller, success is returned as a B<1> and failure as an B<undef>.
+
+=head1 AGENT
+
+Each agent should have a method corresponding to each of the B<verbs> defined in the
+Controller.
+
+    sub start {
+        my ($self) = @_;
+
+        # do something here
+        ...
+
+        # return success
+        return 1;
+    }
+
+The return value from the Agent method will be turned into a Perl true or false value and
+returned to the Controller.
+
+B<note> returning anything other than true or false is not
+allowed, returning something like C<return 'foo';> will simply be converted into C<return 1;>
+at the Controller.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item Controller Socket Transport layer X<lib/Nomura/DRAFT/Transport/Socket/Controller.pm>
+
+=item Agent Socket Transport Layer X<lib/Nomura/DRAFT/Transport/Socket/Agent.pm>
+
+=back
+
+=head1 AUTHOR
+
+Ian Docherty ian.docherty@nomura.com
+
+=head1 LICENSE
+
+Copyright (c) 2001-2011 Nomura Holdings, Inc. All rights reserved.
+
+=cut
+1;
+
