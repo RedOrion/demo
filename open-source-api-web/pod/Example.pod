@@ -1,0 +1,164 @@
+=head1 NAME
+
+Nomura::EPS::NS::API::LDAP::Manual::Example - Simple LDAP example
+
+=head1 DESCRIPTION
+
+This tutorial will guide you through the process of setting up a very
+basic LDAP interface.
+
+The LDAP directory connection is defined as follows
+
+    host        tl0067.lehman.com
+    base        ou=consoles,dc=nomura,dc=com
+    dn          cn=Directory Manager
+    password    secret
+    start_tls   0
+
+The entries we are interested, B<consoles> have the following attributes.
+
+    cn                          The hostname
+    ngbConsolesTerminalServer   The terminal server name
+    ngbConsolesTerminalPort     The terminal server port number
+    ngbConsolesAdminPort        The administration port number
+    objectClass                 [top ngbconsoles]
+
+=head2 Set up the classes
+
+The classes very loosely follow the concepts used in L<DBIx::Class> where there
+is a Result class and a ResultSet class. The Result class provides methods which
+act on an individual row from the LDAP directory, the ResultSet class provide
+methods that act on the whole table.
+
+Create a ResultSet class as follows.
+
+    package Nomura::EPS::NS::API::LDAP::NCD::ResultSet::Console;
+
+    use Moose;
+    use Carp;
+
+    extends 'Nomura::EPS::NS::API::LDAP::ResultSet';
+
+    sub _build_key { return 'cn'; }
+
+    sub _build_base { return 'ou=consoles,dc=nomura,dc=com'; }
+
+    sub _build_object_classes { return [qw(ngbconsoles top)]; };
+
+    sub _build_name_map {
+        return {
+            hostname        => 'cn',
+            terminal_server => 'ngbConsolesTeminalServer',
+            terminal_port   => 'ngbConsolesTerminalPort',
+            admin_port      => 'ngbConsolesAdminPort',
+        };
+    }
+
+    no Moose;
+    __PACKAGE__->meta->make_immutable;
+
+    1;
+
+This class inherits from X<lib/Nomura/EPS/NS/API/LDAP/ResultSet.pm> and
+defines the primary key B<cn> the B<base> used by LDAP searches and the B<object_classes>
+which are required when a new entry is created.
+
+the B<name_map> is a mapping from the name used for each attribute of the class (as
+defined in X<lib/Nomura/EPS/NS/API/LDAP/NCD/Result/Console.pm> This allows us to use
+more friendly names for attributes than those used in the LDAP directory.
+
+Now create a Result class as follows.
+
+    package Nomura::EPS::NS::API::LDAP::NCD::Result::Console;
+
+    use Moose;
+    use Carp;
+
+    extends 'Nomura::EPS::NS::API::LDAP::Result';
+
+    has 'hostname'          => (is => 'rw', isa => 'Str');
+    has 'terminal_server'   => (is => 'rw', isa => 'Str');
+    has 'terminal_port'     => (is => 'rw', isa => 'Int');
+    has 'admin_port'        => (is => 'rw', isa => 'Int');
+
+    no Moose;
+    __PACKAGE__->meta->make_immutable;
+
+    1;
+
+This class inherits from X<lib/Nomura/EPS/NS/API/LDAP/Result.pm> and defines a
+row object using the names from the B<name_map> in the ResultSet class.
+
+=head2 write a script to create/read/update/delete some records
+
+    #!/usr/bin/perl
+
+    use strict;
+    use warnings;
+
+    use FindBin qw($Bin);
+    use FindBin::libs;
+
+    use Nomura::EPS::NS::API::LDAP::NCD;
+
+    my $ncd = Nomura::EPS::NS::API::LDAP::NCD->new({
+        host              => 'tl0067.lehman.com',
+        base              => 'dc=nomura,dc=com',
+        dn                => 'cn=Directory Manager',
+        password          => 'Secret',
+        start_tls         => 0,
+    });
+
+    # obtain a resultset for the Console
+    my $rs = $ncd->resultset('Console');
+
+    # Create a new entry in the LDAP directory
+    my $console = $rs->create({
+        hostname        => 'london123',
+        terminal_server => 'ts_london',
+        terminal_port   => 666,
+        admin_port      => 12,
+    });
+
+    # find a record based on it's primary key
+    my $console = $rs->find('londonxyz');
+
+    # modify a record and write the changes back to the LDAP directory
+    $console->terminal_server('ts_123');
+    $console->terminal_port(345);
+    $console->update;
+
+    # or the same in one operation
+    $console->update({
+        terminal_server => 'ts_123',
+        terminal_port   => 345,
+    });
+
+    # search for a record based on other attributes (ANDed together)
+    my $console = $rs->search({
+        terminal_server     => 'london*',       # wildcard ending
+        terminal_port       => 666,
+    });
+
+    # delete a record
+    $console->delete;
+
+=head1 Notes
+
+A search implements an B<AND> operation, i.e. the above example searches
+for terminal_server which starts with the string 'london' B<AND> a
+terminal_port equal to 666.
+
+It is not currently possible to implement an B<OR> search.
+
+=head1 AUTHOR
+
+Ian Docherty
+
+=head1 LICENSE
+
+Copyright (c) 2001-2011 Nomura Holdings, Inc. All rights reserved.
+
+=cut
+1;
+

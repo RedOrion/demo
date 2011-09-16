@@ -1,0 +1,42 @@
+=head1 NAME
+
+=head1 Outstanding work to do on the API and other programs.
+
+=head1 API
+
+=over
+
+=item * Nomura::EPS::NS::API::Middleware::ResultSet currently fails if there is
+a field that is defined by the Middleware as mandatory, but which is missing in
+LDAP. The code needs to behave gracefully, perhaps by providing an empty string
+(for Str types) or the value zero (for Int Types).
+
+=item * API in general. Complete the use of constants defined in
+Nomura::EPS::NS::API::Constants, there are still some hard-coded error numbers
+scattered throughout the code.
+
+=item * API Error handling. This needs some re-work, it should return all errors
+using the Exception class Nomura::EPS::NS::API::Exception and should create an
+array of B<errors> so that it is able to return multiple errors back to the user
+and hence back through the API.
+
+=item * API DELETE operation. This currently does not check the B<nonce> and it
+probably should only allow a record to be deleted if the nonce supplied to the
+API is present and correct.
+
+=item * Generating a B<nonce> in Nomura::EPS::NS::API::Middleware::ResultSet
+does not take into account any Multi-Value fields (those which are references)
+
+=back
+
+=head1 AUTHOR
+
+Ian Docherty
+
+=head1 LICENSE
+
+Copyright (c) 2001-2011 Nomura Holdings, Inc. All rights reserved.
+
+=cut
+1;
+

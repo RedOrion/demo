@@ -1,0 +1,63 @@
+/** Setup **/
+a:link, a:active, a:visited {
+   color:#C00;
+}
+a:hover {
+	color: #FFF; 
+	background: #C00
+}
+/** End setup **/
+
+/** Header **/
+.bannerModule{
+	background:  url(../images/red/bkg-header-top.gif) repeat-x;
+}
+div.bannerModule div.top {
+	font-size: 1px;
+	background: #f3f3f3  url(../images/red/bkg-header-top-corners.gif) no-repeat;
+	width: 7px;
+	height: 7px;	
+}
+div.bannerModule div.right{
+	background-position: -12px 0px;
+	font-size: 1px;
+	float: right;
+}
+div.bannerModule div.content ul li a{
+	color:#FFF;
+}
+div.bannerModule div.content ul li div {
+	background: #FFF  url(../images/red/tab_background_off.gif) -8px -5px repeat-x;
+	color:#fff;
+}
+div.bannerModule div.content ul li.first div.left {
+	background: #FFF  url(../images/red/tab_first_last.gif) no-repeat;
+}
+div.bannerModule div.content ul li.last div.right-edge {
+	background: #FFF  url(../images/red/tab_first_last.gif) -6px no-repeat;
+	width: 7px;
+}
+div.bannerModule div.content ul li#selected div.left {
+	background: #FFF  url(../images/red/tab_corner_selected.gif) bottom left no-repeat;	
+}
+div.bannerModule div.content ul li#selected div {
+	background: #FFF  url(../images/red/tab_background_on.gif) 0 -6px no-repeat;
+}
+div.bannerModule div.content ul li#selected div.right-edge {
+	background: #FFF  url(../images/red/tab_corner_selected.gif) bottom right no-repeat;	
+	width:3px;
+}
+div.bannerModule div.content ul li#selected.last div.right-edge {
+	background: #FFF  url(../images/red/tab_corner_selected_ends.gif) -6px -6px;
+	width:6px;
+}
+div.bannerModule div.content ul li#selected.first div.left {
+	background: #FFF  url(../images/red/tab_corner_selected_ends.gif) 0 -6px;	
+}
+
+/** End Header **/
+
+/** LHS Navigation **/
+.sidebarheader {
+	background:#F3F3F3  url(../images/red//bkg-left-nav-header.gif) no-repeat scroll 0%;
+}

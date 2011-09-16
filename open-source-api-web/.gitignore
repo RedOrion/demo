@@ -1,0 +1,5 @@
+root/static/pod/*.html
+server.sh
+lib/Nomura/EPS/NS/Middleware
+nomura_eps_ns_api_web.yml
+

@@ -1,0 +1,106 @@
+=head1 NAME
+
+Overview of the EPS NS API
+
+=head1 DESCRIPTION
+
+This document provides an introduction and overview of the B<EPS NS API>
+with links to further documentation.
+
+=head1 Overview
+
+The B<EPS NS API> (also refered to from now as the B<API> provides a RESTful
+L<http://en.wikipedia.org/wiki/Restful> interface to methods to Read, Update,
+Modify and Delete entries on the LDAP back-end servers.
+
+The B<API> can be accessed by any programming language able to issue HTTP requests.
+
+The API comprises the following components.
+
+=over
+
+=item * B<LDAP Interfaces> one for each server, e.g. B<NCD> and B<GCD>
+
+=item * B<Content Centric Middleware> which ensure that data is read from the correct
+LDAP server and written back to all LDAP servers which require the data.
+
+=item * B<RESTful View> The Application Program Interface presented to the world through
+the HTTP protocol.
+
+=back
+
+=head2 LDAP Interfaces
+
+There is an LDAP Interface for each LDAP server, and for each Entity (such as a Console
+a User or a Group) that is accessed from that server.
+
+These interfaces are in the namespace starting at X<lib/Nomura/EPS/NS/API/LDAP.pm>
+
+The Entities (for example the B<Console> entity) require both a B<Result> and a B<ResultSet>
+namespace within the namespace for the appropriate LDAP server. e.g. The Console entity on
+the NCD server can be found defined at.
+
+=over
+
+=item * X<lib/Nomura/EPS/NS/API/LDAP/NCD/Result/Console.pm>
+
+=item * X<lib/Nomura/EPS/NS/API/LDAP/NCD/ResultSet/Console.pm>
+
+=back
+
+Each Result and ResultSet inherits from a base class which provides the methods to Create
+Read, Update and Delete entities. Unless there are any special needs for an entity (perhaps
+because they have to handle LDAP data in a way different from the norm) they would inherit
+from one of the following, as appropriate.
+
+=over
+
+=item * X<lib/Nomura/EPS/NS/API/LDAP/Result.pm>
+
+=item * X<lib/Nomura/EPS/NS/API/LDAP/ResultSet.pm>
+
+=back
+
+The B<ResultSet> and B<Result> classes are loosely modelled on the L<DBIx::Class> cpan modules.
+The B<ResultSet> class defines how the class maps to the LDAP server and provides
+methods that act on the complete data set (such as B<find>, B<create> and B<search>) whereas
+the B<Result> class defines the attributes for the entity and provides methods that operate
+on single items, such as B<insert>, B<update> and B<delete>.
+
+=head2 Creating a new LDAP entity
+
+When creating a new entity for the API the following steps need to be carried out.
+
+=over
+
+=item * For each LDAP server (e.g. B<NCD> and B<GCD>) Create both a B<Result> and a B<ResultSet> class
+e.g. if you were creating a B<Foo> entity you would need to create.
+
+=over
+
+=item * B<Nomura::EPS::NS::API::LDAP::NCD::Result::Foo>
+
+=item * B<Nomura::EPS::NS::API::LDAP::NCD::ResultSet::Foo>
+
+=item * B<Nomura::EPS::NS::API::LDAP::GCD::Result::Foo>
+
+=item * B<Nomura::EPS::NS::API::LDAP::GCD::ResultSet::Foo>
+
+=back
+
+=item * The API needs to be configured via the Middleware Admin system so that the Middleware knows
+which LDAP server to obtain the data from and which one's to write it back to.
+
+=back
+
+=head1 AUTHOR
+
+Ian Docherty
+
+=head1 LICENSE
+
+Copyright (c) 2001-2011 Nomura Holdings, Inc. All rights reserved.
+
+=cut
+1;
+

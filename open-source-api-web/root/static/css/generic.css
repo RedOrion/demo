@@ -1,0 +1,592 @@
+/** Setup **/
+html, body, #holder {
+	min-height: 100%;
+     min-width: 800px;
+	width: 100%;
+	height: 100%;
+	background: #F3F3F3;
+}
+html>body, html>body #holder {
+	height: auto;
+}
+body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+       margin: 0;
+       padding: 0;
+       border: 1;
+
+
+       outline: 0;
+       font-weight: inherit;
+       font-style: inherit;
+       font-size: 100%;
+       font-family: inherit;
+       vertical-align: baseline;
+}
+
+body {
+	height:100%;
+	max-height:100%;
+	color:#333;
+	font: 80% Arial, Helvetica, sans-serif;
+	/* min-width preserves middle column on a narrow window
+	   must be at least 2 x lhc width + rhc width */
+	min-width: 560px;
+}
+hr {
+	width: 100%;
+	margin-bottom: 10px;
+	color: #CCC;
+	height: 1px;
+}
+
+ol, ul {
+       list-style: none;
+}
+
+strong {
+       font-weight: bold;
+}
+
+table {
+       border-collapse: collapse;
+       border-spacing: 0;
+}
+
+caption, th, td {
+       text-align: left;
+       font-weight: normal;
+}
+
+a:link, a:active, a:visited {
+   text-decoration: none;
+}
+
+/** End setup **/
+
+
+/** NEW Page Layuot **/
+#holder {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#header {
+	height: 62px;
+	border: none;
+	width: 100%;
+}
+
+#nav {
+	width: 190px;
+	float: left;
+    padding-bottom: 45px;
+    height: auto;
+}
+
+#nav_orig {
+	width: 190px;
+	float: left;
+    padding-bottom: 45px;
+    height: auto;
+}
+#rhs {
+	width: 185px;
+	/*float: right;*/
+	padding-bottom: 45px;
+	height: auto;
+}
+
+
+.right #rhs{
+	float: right;
+}
+
+#contentTop {
+	margin: 0 5px;
+	padding: 0 !important;
+
+}
+#contentTopNRHS {
+	margin: 0 5px 0 5px;
+}
+#contentTopNLHS {
+	margin: 0 5px 0 5px;
+}
+#contentTopNLHS-NRHS {
+	margin: 0 5px 0 5px;
+}
+*html div#contentMiddle {
+	margin: 0 5px;
+	height: auto;
+	text-indent: 7px;
+}
+#contentMiddle {
+	margin: 0 5px;
+	height: auto;
+	text-indent: 7px;
+}
+*html #contentMiddleNRHS {
+	margin-right: 5px;
+	margin-left: 5px;
+	height: auto;
+	text-indent: 7px;
+}
+#contentMiddleNRHS {
+	margin-right: 5px;
+	margin-left: 5px;
+	height: auto;
+	text-indent: 7px;
+}
+*html #contentMiddleNLHS {
+	margin-right: 5px;
+	margin-left: 5px;
+	height: auto;
+	text-indent: 7px;
+}
+#contentMiddleNLHS {
+	margin-right: 5px;
+	margin-left: 5px;
+	height: auto;
+	text-indent: 7px;
+}
+*html #contentMiddleNLHS-NRHS {
+	margin-right: 5px;
+	margin-left: 5px;
+	height: auto;
+	text-indent: 7px;
+}
+#contentMiddleNLHS-NRHS {
+	margin-right: 5px;
+	margin-left: 5px;
+	height: auto;
+	text-indent: 7px;
+}
+*html #contentBottom {
+	margin: 0 5px;
+	padding-bottom: 50px;
+	height: auto;
+}
+#contentBottom {
+	margin: 0 5px;
+	padding-bottom: 50px;
+	height: auto;
+}
+*html #contentBottomNRHS {
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-bottom: 50px;
+	height: auto;
+}
+#contentBottomNRHS {
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-bottom: 50px;
+	height: auto;
+}
+*html #contentBottomNLHS {
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-bottom: 50px;
+	height: auto;
+}
+#contentBottomNLHS {
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-bottom: 50px;
+	height: auto;
+}
+*html #contentBottomNLHS-NRHS {
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-bottom: 50px;
+	height: auto;
+}
+#contentBottomNLHS-NRHS {
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-bottom: 50px;
+	height: auto;
+}
+#footer {
+	clear: both;
+	height:45px;
+	border: none;
+	width: 100%;
+}
+/** END NEW Page Layout **/
+
+/** Header **/
+#masterHeader
+{
+	padding: 5px;
+	background-color: #F3F3F3;
+}
+div.bannerModule h1 {
+	padding:12px 0 0 8px;
+	font-weight:bold;
+}
+div.bannerModule div.content_nomura_nomura{
+	background: #FFF url(../images/layout/bkg-header.gif) repeat-y;
+	height: 40px;
+	width: 100%;
+}
+div.bannerModule div.content_nomura div.right{
+	background: #FFF url(../images/layout/bkg-header-right.gif) repeat-y;
+	height: 100%;
+	width: 2px;
+	float: right;
+}
+div.bannerModule div.content_nomura ul{
+	float:right;
+	margin-right:8px;
+}
+div.bannerModule div.content_nomura ul li{
+	float:left;
+}
+div.bannerModule div.content_nomura ul li a{
+	text-decoration:none;
+}
+div.bannerModule div.content_nomura ul li div {
+	font-size:80%;
+	float:left;
+	padding-bottom:2px;
+	height: 17px;
+	line-height:14px;
+}
+div.bannerModule div.content_nomura ul li.first div.left {
+	width:7px;
+	background-position: 0px;
+}
+div.bannerModule div.content_nomura ul li div.label {
+	background-position:6px -5px;
+	text-indent:16px;
+	padding-right:3px;
+}
+div.bannerModule div.content_nomura ul li div.label a:hover {
+	background: none;
+}
+
+div.bannerModule div.content_nomura ul li#selected div.left {
+	width:3px;
+}
+div.bannerModule div.content_nomura ul li#selected div {
+	font-size:105%;
+	height:24px;
+}
+div.bannerModule div.content_nomura ul li#selected div.label {
+	text-indent:20px;
+	padding-right: 8px;
+	line-height:23px;
+}
+div.bannerModule div.content_nomura ul li#selected.first div.left {
+	width:6px;
+}
+div.bannerModule .base{
+	background: url(../images/layout/bkg-header-base.gif);
+	font-size: 1px;
+	width: 100%;
+}
+div.bannerModule .base .corners{
+	background: #F3F3F3 url(../images/layout/bkg-header-base-corners.gif) no-repeat;
+	width: 10px;
+	height: 7px;
+}
+div.bannerModule .base .right{
+	background-position: -11px 0px;
+	float: right;
+}
+#logo{
+	position: absolute;
+	left: 13px;
+	top: 23px;
+}
+/** End Header **/
+
+/** Breadcrumbs **/
+#breadcrumb {
+	padding: 5px 0;
+	position: inherit;
+	border-bottom: dotted 1px #CCC;
+	border-top: dotted 1px #CCC;
+	background:#FFF url(../images/layout/bkg-content-left.gif) repeat-y;
+	z-index: 1;
+}
+.breadcrumbRight{
+	background:transparent url(../images/layout/bkg-header-right.gif) right repeat-y;
+	z-index: 100;
+	width:7px;
+	height: 28px;
+	float: right;
+	position: relative;
+	min-height:28px;
+}
+/** End Breadcrumbs **/
+
+/** Banner **/
+#bannerContent {
+	background: transparent url(../images/layout/bkg-content-header.gif) no-repeat right top;
+	height: 78px;
+}
+#bannerContent div.header {
+	background: transparent url(../images/layout/bkg-content-left.gif) repeat-y scroll;
+	height: 78px;
+}
+#bannerContent div.headerLeft {
+	background: transparent url(../images/layout/bkg-content-header-left.gif) no-repeat;
+	height: 7px;
+	font-size: 0px;
+}
+#bannerContent div.bannerImg {
+	height: 73px;
+	margin: 0 2px;
+}
+
+/** End Banner **/
+
+/** Banner NO IMAGE **/
+#bannerContentNI {
+	background: transparent url(../images/layout/bkg-content-header.gif) no-repeat right top;
+}
+#bannerContentNI div.header {
+	background: transparent url(../images/layout/bkg-content-left.gif) repeat-y scroll;
+}
+#bannerContentNI div.headerLeft {
+	background: transparent url(../images/layout/bkg-content-header-left.gif) no-repeat;
+	height: 7px;
+	font-size: 0px;
+}
+
+/** End Banner NO IMAGE **/
+
+/** Content Area **/
+#masterContent {
+	position: inherit;
+	z-index: 2;
+	background:#FFF url(../images/layout/bkg-header-right.gif) right repeat-y;
+}
+
+#masterContent div.content_nomura {
+	background:transparent url(../images/layout/bkg-content-left.gif) repeat-y scroll 0% 0%;
+	padding:7px;
+}
+#masterContent div.content_nomura p {
+	margin-bottom: 10px;
+}
+#masterContent div.content_nomura H2 {
+	font-size: 14pt;
+	display: block;
+	padding: 10px 0;
+}
+#masterContent div.content_nomura H3 {
+	font-size: 12pt;
+	display: block;
+	padding: 10px 0;
+}
+#masterContent div.footer {
+	background:transparent url(../images/layout/bkg-content-base.gif) no-repeat scroll 0% 0%;
+	height: 7px;
+	position: relative;
+}
+*html #masterContent div.footer img {
+	position: absolute;
+	right: -2px;
+	bottom: -1px;
+}
+#masterContent div.footer img {
+	bottom:0pt;
+	position:absolute;
+	right:0pt;
+}
+
+p.lastmod {
+	font-size: 75%;
+	color:#CCC;
+	font-style:italic;
+	}
+
+/** End Content Area **/
+
+
+/* FOOTER */
+div#footerPad {
+	padding: 5px;
+}
+div#footerDesign {
+	background:transparent url(../images/layout/bkg-footer-content.gif) repeat-x;
+	min-height:35px;
+	height:35px;
+}
+div#footerDesign div.left {
+	background:#FFFFFF url(../images/layout/bkg-footer-corners.gif) no-repeat scroll 0px 50%;
+	width:7px;
+	height: 35px;
+	float:left;
+	min-height:35px;
+}
+div.footerDesignRight {
+	background:#FFFFFF url(../images/layout/bkg-footer-corners.gif) no-repeat scroll -8px 50%;
+	width:7px;
+	height: 35px;
+	right: 5px;
+	position: absolute;
+	min-height:35px;
+}
+div#footerDesign p#copyright {
+	float:left;
+	margin-left: 5px;
+	color: #FFF;
+	font-size:85%;
+	padding-top:10px;
+}
+div#footerDesign ul {
+	float:right;
+	margin:0 0 0 20px;
+	padding-top:9px;
+}
+div#footerDesign ul li{
+	float:left;
+	margin:0 15px 0 15px;
+	color:#FFF;
+	font-size:110%;
+}
+div#footerDesign ul li a{
+	color:#FFF;
+	font-size:110%;
+}
+div#footerDesign ul li a:hover{
+	color:#CCC;
+	background: none;
+}
+/* END FOOTER */
+
+/** LHS Navigation **/
+#menuPad{
+	padding-left: 5px;
+}
+.sidebarheader {
+	height:15px;
+
+}
+#masterMenu {
+	z-index: 250;
+	background:transparent url(../images/layout/bkg-left-nav-footer.gif) no-repeat left bottom;
+	padding-bottom: 10px;
+	position: inherit;
+	width: 180px;
+	display: table;
+}
+
+/** End LHS Navigation - FURTHER NAV STYLES IN NAVIGATION2008.CSS**/
+
+/* RHS */
+.rhsItem {
+	background:transparent url(../images/layout/bkg-left-nav-footer.gif) no-repeat scroll center bottom;
+	padding-bottom:3px;
+	margin-bottom:5px;
+	margin-right: 5px;
+}
+
+div.rhsItem img {
+	margin: -8px 2px 0;
+}
+
+div.rhsItem h4 {
+	margin: 3px 6px;
+	font-weight:normal;
+}
+
+div.rhsItem p {
+	font-size: 85%;
+	margin: 3px 6px;
+}
+/* END RHS */
+
+/* HORIZONTAL NAVIGATION */
+div#horizontalNav {
+	background:transparent url(../images/layout/bkg-footer-content.gif) repeat-x;
+	height:35px;
+	margin: 1px 5px 4px 5px;
+}
+div#horizontalNav div.left {
+	background:#FFFFFF url(../images/layout/bkg-footer-corners.gif) no-repeat scroll 0px 50%;
+	width:7px;
+	height: 35px;
+	float:left;
+	min-height:35px;
+}
+div#horizontalNav div.right {
+	background:#FFFFFF url(../images/layout/bkg-footer-corners.gif) no-repeat scroll -8px 50%;
+	width:7px;
+	height: 35px;
+	float:right;
+	min-height:35px;
+}
+div#horizontalNav div.id {
+	padding:10px 0 0 2px;
+	font-size: 12px;
+	color: #999;
+}
+div#horizontalNav div.id a{
+	color:#FFF;
+}
+div#horizontalNav div.id a:hover{
+	color:#CCC;
+	background: none;
+}
+div#horizontalNav div.id a.wrongId{
+	color:#999;
+	text-decoration: underline;
+}
+div#horizontalNav div.id a.wrongId:hover{
+	color:#CCC;
+	background: none;
+}
+div#search {
+	float: right;
+	padding: 7px 5px 0 0;
+}
+div#search input {
+	font-size: 10px;
+	color: #666;
+	background: #F3F3F3;
+}
+div#search label A, div#search label A:link, div#search label A:active, div#search label A:visited{
+	font-size: 12px;
+	color: #FFF;
+	padding-left: 5px;
+}
+div#search label A:hover {
+	font-size: 12px;
+	color: #CCC;
+	padding-left: 5px;
+	background: none;
+}
+div#navDropdown ul {
+	float:left;
+	padding-top:9px;
+}
+div#navDropdown ul li{
+	float:left;
+	margin:0 15px 0 0;
+	color:#FFF;
+	font-size:110%;
+	border-right: 1px dotted #CCC;
+	padding-right: 15px;
+}
+div#navDropdown ul li a{
+	color:#FFF;
+	font-size:110%;
+}
+div#navDropdown ul li a:hover{
+color:#CCC;
+	background: none;
+}
+/* END HORIZONTAL NAVIGATION */
+

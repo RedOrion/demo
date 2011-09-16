@@ -1,0 +1,256 @@
+#appTable{
+	width: 100%;
+	margin: 0;
+	border: 1px solid #CCC;
+}
+#appTable TH {
+	font-weight: bold;
+	background: #666;
+	color: #FFF;
+	height: 20px;
+	vertical-align: middle;
+	padding: 5px;
+}
+#appTable TR {
+	color: #333;
+	vertical-align: top;
+}
+#appTable TR.alt {
+	background: #F3F3F3;
+}
+#appTable TR:hover {
+	background: #E5E5E5;
+}
+#appTable TD{
+	padding: 5px;
+}
+#masterContent .Title-Large {
+	font-size: 18px;
+	font-weight: bold;
+	padding-top: 5px;
+	margin-bottom: 15px;
+}
+#masterContent .Title-Medium {
+	font-size: 16px;
+	font-weight: bold;
+	padding-top: 5px;
+	margin-bottom: 15px;
+}
+#masterContent .Title-Small {
+	font-size: 14px;
+	font-weight: bold;
+	padding-top: 5px;
+	margin-bottom: 15px;
+}
+#masterContent .Title-Underlined-Large {
+	font-size: 18px;
+	font-weight: bold;
+	padding-top: 5px;
+   padding-bottom: 5px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #999;
+}
+#masterContent .Title-Underlined-Medium {
+	font-size: 16px;
+	font-weight: bold;
+	padding-top: 5px;
+   padding-bottom: 5px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #999;
+}
+#masterContent .Title-Underlined-Small {
+	font-size: 14px;
+	font-weight: bold;
+	padding-top: 5px;
+   padding-bottom: 5px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #999;
+}
+#masterContent .Horizontal-Line{
+	display: block;
+	width: 100%;
+	height: 1px !important;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #999;
+}
+#masterContent UL {
+	margin-left: 40px;
+}
+#masterContent UL LI {
+	list-style-type: square;
+	list-style-position: outside;
+}
+#masterContent OL {
+	margin-left: 40px;
+}
+#masterContent OL LI {
+	list-style-type: decimal;
+	list-style-position: outside;
+}
+#masterContent LI.PDF-List-Item {
+	list-style-type:none;
+	list-style-image: url(http://intranet.uk.nomura.com/resources/images/content/pdf.gif);
+	vertical-align: top;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+#masterContent LI.Word-List-Item {
+	list-style-type:none;
+	list-style-image: url(http://intranet.uk.nomura.com/resources/images/content/word.gif);
+	vertical-align: text-top;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+#masterContent LI.Excel-List-Item {
+	list-style-type:none;
+	list-style-image: url(http://intranet.uk.nomura.com/resources/images/content/excel.gif);
+	vertical-align: text-top;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+#masterContent LI.Powerpoint-List-Item {
+	list-style-type:none;
+	list-style-image: url(http://intranet.uk.nomura.com/resources/images/content/ppt.gif);
+	vertical-align: text-top;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+#masterContent LI.Nomura-List-Item {
+	list-style-type:none;
+	list-style-image: url(http://intranet.uk.nomura.com/resources/images/content/nomura.gif);
+	vertical-align: text-top;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+#masterContent LI A {
+	vertical-align: middle;
+}
+#masterContent TABLE .Table-Header {
+	background: #CCC;
+	color: #333;
+	font-weight: bold;
+}
+.Dark-Grey {
+	color: #333;
+}
+.Mid-Grey {
+	color: #666;
+}
+.Light-Grey {
+	color: #999;
+}
+.Red {
+	color: #C00;
+}
+.Blue{
+	color: #00C;
+}
+.Green {
+	color: #090;
+}
+.DataTable {
+	border: 1px solid #999;
+	margin-top: 10px;
+	width: 92%;
+}
+
+.data_text {
+	font-weight: bold;
+	padding-top: 0px;
+	padding-bottom: 10px;
+	vertical-align: middle;
+	width:92%;
+}
+
+.data_text input{
+	vertical-align: middle;
+	margin-left: 5px;
+}
+
+.data_text .title {
+    width: 250px;
+    float: left;
+    display: block;
+}
+
+.data_text .green {
+	font-weight: normal;
+    color: #090;
+}
+
+.data_text .amber {
+	font-weight: normal;
+    color: #C80;
+}
+
+.data_text .red {
+	font-weight: normal;
+    color: #C00;
+}
+
+.data_text .status {
+
+}
+
+.data_text p {
+    width: 300px;
+}
+
+.data_text table{
+	margin-top: 15px;
+}
+
+.data_text td{
+	white-space: nowrap;
+}
+
+.data_text .button_grey {
+	background: #5a5a5a;
+	font-weight: bold;
+	color: #FFF;
+	font-size: 11px;
+	margin: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	border: 1px solid #063;
+	width: 120px;
+}
+
+.inner_content {
+	border: 1px solid #999;
+	margin: 10px;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-bottom: 20px;
+	width: 96%;
+}
+
+.message_success, .message_error {
+    margin-top: 10px;
+    padding:    0pt 0.7em;
+}
+
+.message_error p, .message_success p {
+    margin-top: 10px;
+}
+
+.message_error span, .message_success span {
+    float:          left;
+    margin-right:   0.3em;
+}
+
+.status_red {
+	font-weight: bold;
+    color: #C00;
+}
+
+.status_amber {
+	font-weight: bold;
+    color: #C80;
+}
+
+.status_green {
+	font-weight: bold;
+    color: #090;
+}
+

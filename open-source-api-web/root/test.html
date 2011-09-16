@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+<title>EPS Engineering Portal</title>
+
+<script type="text/javascript" src="[% c.uri_for('/static/scripts/jquery-1.5.js') %]" ></script>
+
+<script type="text/javascript">
+
+jQuery.noConflict;
+
+function _ajax_request(url, data, callback, type, method) {
+    if (jQuery.isFunction(data)) {
+        callback    = data;
+        data        = {};
+    }
+    return jQuery.ajax({
+        type        : method,
+        url         : url,
+        data        : data,
+        success     : callback,
+        dataType    : type,
+        });
+}
+
+jQuery.extend({
+    get_request: function(url, data, callback, type) {
+        return _ajax_request(url, data, callback, type, 'GET');
+    },
+    post_request: function(url, data, callback, type) {
+        return _ajax_request(url, data, callback, type, 'POST');
+    },
+    put_request: function(url, data, callback, type) {
+        return _ajax_request(url, data, callback, type, 'PUT');
+    },
+    delete_request: function(url, data, callback, type) {
+        return _ajax_request(url, data, callback, type, 'DELETE');
+    }
+});
+
+jQuery(document).ready(function() {
+
+    jQuery.post_request("[% c.uri_for('/console/london9rat3') %]", {
+            something: 1
+        },
+        function(json) {
+            alert(json.terminal_server);
+        },
+        'json'
+    );
+});
+
+</script>
+
+</head>
+  <body>
+    <div id="maincontainer">
+      <div class="innercontent pod">
+
+        <p>hello world</p>
+
+
+      </div>
+    </div>
+  </body>
+</html>

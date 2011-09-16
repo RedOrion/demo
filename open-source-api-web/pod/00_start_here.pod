@@ -1,0 +1,71 @@
+=head1 NAME
+
+Overview of the EPS NS system and documentation
+
+=head1 DESCRIPTION
+
+This document gives an overview of the EPS NS systems and links to various
+documents of further interest.
+
+=head1 Overview
+
+The EPS-NS system comprises three major components
+
+=over
+
+=item * B<EPS NS API> The back-end Application Program Interface
+
+=item * B<EPS NS Middleware Admin> The administration system for the API
+
+=item * B<EPS NS Portal> The Front end Application program that uses the API to
+administer Consoles, Users and Groups
+
+=back
+
+These three components are described in greater detail elsewhere (see links below).
+
+=head2 EPS NS API
+
+The B<EPS NS API> (also refered to from now as the B<API> provides a RESTful
+L<http://en.wikipedia.org/wiki/Restful> interface to methods to Read, Update,
+Modify and Delete entries on the LDAP back-end servers.
+
+The B<API> can be accessed by any programming language able to issue HTTP requests.
+
+The API has a B<content centric middleware> layer that ensures that data is read from
+the correct LDAP servers and is written back to all LDAP servers that require the
+data.
+
+Further information can be found at X<pod/api_overview.pod>.
+
+=head2 EPS NS Portal
+
+The B<Portal> is a web application which currently has the functionality to administer
+B<Consoles> B<Users> and B<Groups> and which uses the B<API> to carry out these
+operations.
+
+It is expected that the Portal will be extended to provide the ability to administer
+other LDAP entities.
+
+=head2 EPS NS Middleware Admin
+
+The B<Middleware Admin> is a Catalyst web application that can update the database
+which controls the API Middleware. This database controls which LDAP server items
+of data are read from and which LDAP servers the data is written back to on updates.
+
+The Admin system can also specify simple attributes for each data item such as whether
+or not the data is read-only, is mandatory and whether it is a string or an integer.
+(it would be possible in the future to also specify simple data validation rules on
+the items).
+
+=head1 AUTHOR
+
+Ian Docherty
+
+=head1 LICENSE
+
+Copyright (c) 2001-2011 Nomura Holdings, Inc. All rights reserved.
+
+=cut
+1;
+

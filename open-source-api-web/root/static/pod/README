@@ -1,0 +1,6 @@
+This directory is intentionally left empty (apart from this file)
+in the git repository.
+It should be populated with generated html files using the following command
+$ cd (to the root of the git repository)
+$ ./tools/make_pod.pl
+

@@ -1,0 +1,491 @@
+.navcontent
+{
+    background-color:   transparent;
+    height:             auto;
+    overflow:           show;
+    width:              176px;
+    vertical-align:     top;
+    margin:             0 2px;
+}
+
+
+/*____________________________________________________ NAVIGATION SPECIFIC STYLES ____________________________________*/
+
+
+* html div.navcontent ul li
+{
+    float: left;
+    position: static;
+}
+
+.menu_nomura dl,
+.menu_nomura dt,
+.menu_nomura dd,
+.menu_nomura ul,
+.menu_nomura li
+{
+   margin:          0px;
+   padding:         0px;
+   list-style-type: none;
+}
+
+
+/*.menu_nomura dl a, */
+.menu_nomura dt a:link div.linktext, .menu_nomura dt a:visited div.linktext,
+.menu_nomura li a:link div.linktext, .menu_nomura li a:visited div.linktext,
+.menu_nomura dd a:link div.linktext, .menu_nomura ddd a:visited div.linktext,
+.menu_nomura ul a:link div.linktext, .menu_nomura ul a:visited div.linktext
+{
+    padding-right:  20px;
+    padding-top:    3px;
+    padding-bottom: 3px;
+    display:        block;
+    margin:         0;
+    cursor:         hand;
+}
+
+
+/* sub-menu-branch */
+.menu_nomura li a.branch,
+.menu_nomura dt a.branch
+{
+   display:         block;
+   text-decoration: none;
+    cursor: hand;
+}
+
+
+/* ----------------------------------------------------------------------------------------------------
+// LEFT HAND menu STUFF
+// ---------------------------------------------------------------------------------------------------- */
+
+
+dl.menu
+{
+    /* border-top: 1px dotted #999; */
+   zmargin:         0px;
+    width:          100%;
+    font:           normal 14px/1.3 Arial, Helvetica, Verdana, sans-serif;
+    display:        block;
+    float:          left;
+    position:       inherit;
+}
+
+/* TOP LEVEL colors */
+.menu_nomura dt
+{
+    cursor:         pointer;
+    position:       inherit;
+    height:         auto;
+    display:        block;
+    padding-right:  0px;
+}
+*html .menu_nomura dt
+{
+    cursor:        pointer;
+    position:      inherit;
+    height:        auto;
+    display:       block;
+    padding-right: 0px;
+    width:         171px;
+}
+
+/* Add 5/6/7 */
+.menu_nomura dt.subactive
+{
+    margin:        0;
+
+
+}
+
+/* ------------------------ADDED on 6/6/2007 ------------------------*/
+
+
+.menu_nomura dt.subactived
+{
+    margin:        0;
+
+}
+
+/* ------------------------ADDED END 6/6/2007 ------------------------*/
+
+
+/* Add 5/6/7 */
+
+.menu_nomura dd
+{
+   font:        normal 12px/1.3 Arial, Helvetica, Verdana, sans-serif;
+   width:       auto;
+   _width:      173px;
+   overflow:    show;
+
+   /*Changed 5/6/7
+    margin:  0px;
+   padding: 0px;*/
+
+    /* Adds correct border and margin to the bottom of sub-nav items */
+    /* changed 6/6/07 */
+
+
+}
+
+.menu_nomura dd dd,
+.menu_nomura dd dd dd,
+.menu_nomura dd dd dd dd,
+.menu_nomura dd dd dd dd dd
+{
+    /* Corrects problem with sub-sub (and beyond) navigation having margins and the incorrect border colour */
+    /* changed 6/6/07 */
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.menu_nomura li
+{
+   background: #fff1f1;
+   height:      auto;
+   width:       100%;
+}
+
+
+
+/* TOP LEVEL colors */
+.menu_nomura li a,
+.menu_nomura dt a
+{
+   display:         block;
+   text-decoration: none;
+   color:          #666;
+   font-weight:    normal;
+   background:     transparent;
+   background-repeat: no-repeat;
+   background-position: 160px 7px;
+   /* TEXT INDENT */
+   padding-left:  5px;
+   padding-right: 0px;
+   width: auto;
+   _width: 100%;
+}
+
+
+.menu_nomura li a.linkurl, .menu_nomura li a.linkurl:visited,
+.menu_nomura dt a.linkurl, .menu_nomura dt a.linkurl:visited
+{
+    display:            block;
+    text-decoration:    none;
+    color:              #666;
+    font-weight:        normal;
+    background:         transparent  url(../images/navigation/icon_linkurl.gif) no-repeat 160px 7px;
+    padding-left:       5px;
+    padding-right:      0px;
+    width:              auto;
+    _width:             100%;
+
+}
+
+/* TOP LEVEL colors */
+.menu_nomura li a:hover,
+.menu_nomura dt a:hover
+{
+   background-color: #F3F3F3;
+   color: #c00;
+   /* background-image:  url(../images/navigation/icon_page.gif);*/
+   background-repeat: no-repeat;
+   background-position: 168px 7px;
+   /* TEXT INDENT */
+   padding-left: 5px;
+   padding-right: 0px;
+}
+
+
+.menu_nomura li a.linkurl:hover,
+.menu_nomura dt a.linkurl:hover
+{
+    display:         block;
+   text-decoration: none;
+    color:           #c00;
+    font-weight:     normal;
+    background: #f3f3f3  url(../images/navigation/icon_linkurl.gif) no-repeat 160px 7px;
+   padding-left:  5px;
+   padding-right: 0px;
+}
+
+
+/* sub-menu-pages */
+.menu_nomura li a.sub,
+.menu_nomura dt a.sub
+{
+   display: block;
+   text-decoration: none;
+   color: #666;
+   background:  url(../images/navigation/icon_arrow_off.gif) no-repeat 160px 10px;
+   /* TEXT INDENT */
+    width: 151px;
+   padding-left: 5px;
+   padding-right: 0px;
+}
+
+.menu_nomura li a.sub:hover,
+.menu_nomura dt a.sub:hover
+{
+   background-color: #f3f3f3;
+   color: #c00;
+   background:  url(../images/navigation/icon_arrow_on.gif) no-repeat 160px 10px;
+   /* TEXT INDENT */
+    width: 151px;
+   padding-left: 5px;
+   padding-right: 0px;
+}
+
+
+
+/* TOP LEVEL colors */
+.menu_nomura li a.branch,
+.menu_nomura dt a.branch
+{
+   display: block;
+   text-decoration: none;
+   color: #666;
+   background: transparent;
+   background:  url(../images/navigation/icon_arrow_off.gif) no-repeat 160px 10px;
+    width: 166px;
+   /* TEXT INDENT */
+   padding-left:  5px;
+   padding-right: 0px;
+
+}
+
+/* TOP LEVEL colors */
+.menu_nomura li a.branch:hover,
+.menu_nomura dt a.branch:hover,
+.menu_nomura li a.branchd,
+.menu_nomura a.branchd:hover,
+.menu_nomura dt a.branchd,
+.menu_nomura dt a.branchd:hover
+{
+   color: #c00;
+   background: #f3f3f3  url(../images/navigation/icon_arrow_off.gif) no-repeat 160px 10px;
+    width: 151px;
+   /* TEXT INDENT */
+   padding-left: 5px;
+   padding-right: 20px;
+}
+
+
+/* PREVENTS ARROW CHANGING */
+.menu_nomura li a.branchd,
+.menu_nomura dt a.branchd,
+{
+    color: #666;
+    background: #F3F3F3  url(../images/navigation/icon_arrow_on.gif) no-repeat 160px 10px;
+    width: 151px;
+}
+
+.menu_nomura a.branchd:hover,
+.menu_nomura dt a.branchd:hover
+{
+    /* allows white rollover 5/6/7 */
+    color: #C00;
+    background: #F3F3F3  url(../images/navigation/icon_arrow_on.gif) no-repeat 160px 10px;
+    width: 151px;
+}
+/* PREVENTS ARROW CHANGING */
+
+
+
+.menu_nomura dd
+{
+  display: none;
+}
+
+
+
+/* Currently selected menu item */
+.menu_nomura li a.selected,
+.menu_nomura dt a.selected
+{
+   display:         block;
+   text-decoration: none;
+   color:           #C00;
+
+   /* TEXT INDENT */
+   padding-left:  5px;
+   padding-right: 0px;
+
+   width: auto;
+   _width: 100%;
+    /* HELEN */
+
+    /* correct background */
+    background-color: #E5E5E5;
+   /*background: #fff  url(../images/navigation/icon_page.gif') no-repeat 160px 7px;*/
+
+    margin: 0;
+}
+
+
+
+
+
+
+/* TOP LEVEL colors */
+.menu_nomura li a.selected:hover,
+.menu_nomura dt a.selected:hover ,
+.menu_nomura dt a.selected:visited
+{
+    /*
+   background-color: #fff;
+    background-position: 168px 7px;
+    */
+
+   color: #c00;
+   /* background-image:  url(../images/navigation/icon_pagered.gif);
+   background-repeat: no-repeat;
+   background-position: 5px 4px; */
+
+   /* TEXT INDENT */
+   padding-left: 5px;
+   padding-right: 0px;
+
+    /* background: #fff url('/lib/CC0000/images/css/icon_page.gif') no-repeat 160px 7px; */
+    background-color: #E5E5E5;
+}
+
+
+.menu_nomura dt a.home
+{
+   /*font-weight: bold; */
+   background:  url(../images/navigation/icon_home.gif) no-repeat 160px 7px;
+    width: 171px;
+}
+
+.menu_nomura dt a.selected
+{
+   background-color: #E5E5E5;
+   color: #C00;
+    width: 171px;
+
+}
+
+.menu_nomura dt a.home:hover,
+.menu_nomura dt a.home selected:hover
+{
+   color: #c00;
+    width: 171px;
+   background:#E5E5E5  url(../images/navigation/icon_home.gif) no-repeat 160px 7px;
+}
+
+
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* sublevel stuff - add as many levels as you like*/
+
+
+.menu_nomura dd dt
+{
+    /* sub-nav spacing between items */
+   width:            176px;
+
+   /* changed 5/6/7
+    margin:           0 0 3px 0;*/
+    margin: 0;
+
+
+
+
+    /* prevents second level jutting out */
+   border:           0px;
+
+}
+
+.menu_nomura dd dd dt a div.linktext,
+.menu_nomura dd dd dt a:visited div.linktext,
+.menu_nomura dd dd dd dt a div.linktext,
+.menu_nomura dd dd dd dt a:visited div.linktext
+{
+    /* New Indents for sub-sublevels & sub-sub-sublevels */
+    padding-left: 6px;
+}
+
+
+dd ul dt a.linkurl {
+    font-weight: bold;
+}
+
+/* second level */
+.menu_nomura dd dt a,
+.menu_nomura dd dt a.branch,
+.menu_nomura dd li a.linkurl,
+.menu_nomura dd li a.linkurl:visited,
+.menu_nomura dd dt a.linkurl,
+.menu_nomura dd dt a.linkurl:visited
+
+{
+    /* HELEN */
+   background-color: #F3F3F3;
+    width: 171px;
+    /* changes 5/6/7
+   border: 1px solid #ccc;*/
+
+
+}
+.menu_nomura dd dt a.branchd
+{
+   /* changed 5/6/7
+    border:    1px solid #ccc; */
+
+   /* changed 5/6/7
+    background-color: #D4EDAA;*/
+}
+
+/* third level */
+.menu_nomura dd dd dt a,
+.menu_nomura dd dd dt a.branch,
+.menu_nomura dd dd li a.linkurl,
+.menu_nomura dd dd li a.linkurl:visited,
+.menu_nomura dd dd dt a.linkurl,
+.menu_nomura dd dd dt a.linkurl:visited
+{
+   background-color: #F3F3F3;
+}
+.menu_nomura dd dd dt a.branchd
+{
+   background-color: #F3F3F3;
+}
+
+
+
+/* fourth level */
+.menu_nomura dd dd dd dt a,
+.menu_nomura dd dd dd dt a.branch,
+.menu_nomura dd dd li a.linkurl,
+.menu_nomura dd dd li a.linkurl:visited,
+.menu_nomura dd dd dt a.linkurl,
+.menu_nomura dd dd dt a.linkurl:visited
+{
+   background-color: #F3F3F3;
+}
+.menu_nomura dd dd dd dt a.branchd
+{
+   background-color: #F3F3F3;
+}
+
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+
+/* fixes problem with text over-writing icons */
+dt a,
+dt a:hover
+{
+   padding: 0px 20px 0px 5px;
+   margin:  0px;
+}
+.menu_nomura a:visited
+{
+    _color: #666;
+}

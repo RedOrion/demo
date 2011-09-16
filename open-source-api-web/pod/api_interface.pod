@@ -1,0 +1,512 @@
+=head1 NAME
+
+Description of the Application Program Interface (API)
+
+=head1 DESCRIPTION
+
+This document gives details of the API calls and responses.
+
+=head1 Overview
+
+The API uses a RESTful interface where each resource has a unique URL, for
+example a URL to access a user record might be B</rest/user/docherti>
+
+The API can accept a number of content types, such as JSON or XML or even direct
+access from a web browser and it will respond with the same content type.
+
+The standard HTTP methods B<GET>, B<PUT>, B<POST> and B<DELETE> specify the
+action to carry out on the resource.
+
+=head1 Typical Request and Response
+
+A request can be given in a number of formats, for a full list please refer
+to the CPAN module L<Catalyst::Controller::REST> but for the purpose of this
+document only JSON and XML will be described.
+
+A JSON request to make a change to a record (via a PUT method) might look similar
+to the following
+
+   # Headers
+   Content-Type: application/json
+   ...
+
+   # Body
+   {
+   "uid_number":11112222,
+   "uid":"test001",
+   "login_shell":"/bin/csh",
+   "full_name":"John Smith",
+   "surname":"Smith",
+   "gid_number":20,
+   "employee_number":"EU11112222",
+   "home_directory":"/home/smith001"
+   }
+
+Whereas the XML request might look similar to the following
+
+   # Headers
+   Content-Type: text/xml
+   ...
+
+   # Body
+   <opt
+      uid_number="11112222"
+      uid="test001"
+      login_shell="/bin/csh"
+      full_name="John Smith"
+      surname="Smith"
+      gid_number="20"
+      employee_number="EU11112222"
+      home_directory="/home/smith001"
+    />
+
+In either case the response will be of the same type (JSON or XML) as the request.
+
+For the purpose of this document and all further examples, all requests and
+responses will be shown in L<Data::Dumper> format, e.g.
+
+  {
+      uid_number      => 11112222,
+      uid             => 'test001',
+      login_shell     => '/bin/csh',
+      full_name       => 'John Smith',
+      surname         => 'Smith',
+      gid_number      => 20,
+      employee_number => 'EU11112222',
+      home_directory  => '/home/smith001'
+  }
+
+Any of the B<GET> interfaces to the API can be accessed directly by a web browser
+and this can be a useful test aid.
+
+For example if the browser is directed to the url B</rest/user/docherti> then it
+will issue a GET request for the resource. In this caset the API will detect that
+a browser is making the request and issue a response in HTML format.
+
+For example, a request to B</rest> will respond with something similar to the
+following
+
+  ---
+  message: Welcome to the Nomura EPS NS API
+  supported_entities:
+    - Console
+    - User
+  urls:
+    Console: http://lonlx20575:3005/rest/Console
+    User: http://lonlx20575:3005/rest/User
+  version: 10
+
+(The L<Data::Dumper> format would be similar to)
+
+  {
+    message     => 'Welcome to the Nomura EPS NS API',
+    supported_entities => [
+      Console,
+      User
+    ],
+    urls => {
+      User      => 'http://localhost/rest/User',
+      Console   => 'http://localhost/rest/Console'
+    },
+    version => '10'
+  };
+
+
+=head1 Individual API methods
+
+All requests will be shown in L<Data::Dumper> format but it should be understood
+that the API also supports JSON and XML and other formats (see
+L<Catalyst::Controller::REST> for a more complete list).
+
+=head2 HOME URL B</rest> GET method
+
+The Home URL only supports the GET request and provides information about the API
+as shown below.
+
+  {
+    supported_entities  => ['Console','User'],
+    version             => '10',
+    urls    => {
+      User        => 'http://lonlx20575:3005/rest/User',
+      Console     => 'http://lonlx20575:3005/rest/Console'
+    },
+    message             => 'Welcome to the Nomura EPS NS API'
+  }
+
+This shows the current version number of the API, The entities that are supported
+(Consoles and Users) and the base URL for each of these entities.
+
+In addition a system message may be displayed.
+
+The Version Number should be checked to ensure that any applications that use
+the API are compatible with the current version.
+
+=head2 Entity Base URL B<< /rest/<entity> >> GET method
+
+For the purposes of example only the Console entity will be described.
+All entities will operate in a similar manner and have the same API calls
+and differ only in the details of their attributes.
+
+The Entity Base URL only supports the GET request and provides information about
+the Entity.
+
+  {
+    meta_data => {
+        all_terms => {
+            terminal_port => {
+                tooltip => 'This is a tooltip',
+                required => 0,
+                read_only => 0,
+                constraint => 'Maybe[Int]'
+            },
+            hostname => {
+                tooltip => 'this is the hostname',
+                required => 1,
+                read_only => 1,
+                constraint => 'Str'
+            },
+            admin_port => {
+                tooltip => 'this is the admin port',
+                required => 0,
+                read_only => 0,
+                constraint => 'Maybe[Int]'
+            },
+            terminal_server => {
+                tooltip => 'this is the terminal server',
+                required => 0,
+                read_only => 0,
+                constraint => 'Maybe[Str]'
+            }
+        },
+        search_terms => ['admin_port','hostname','terminal_port','terminal_server'],
+        key => 'hostname'
+    },
+    data => [],
+    urls => {
+        base_url => 'http://lonlx20575:3005/rest/console',
+        home_url => 'http://lonlx20575:3005/rest/'
+    }
+  }
+
+The B<meta_data> and the B<urls> will be returned with all requests to the entity
+namespace.
+
+The B<urls> are links back to the API Home Directory B<home_url> and to the base
+url for the entity B<base_url>.
+
+B<meta_data> provides data about the entity itself.
+
+=over
+
+=item * B<key> is the attribute for the entity which acts as the primary key on
+LDAP
+
+=item * B<search_terms> indicate which of the entity attributes can be used as
+search terms. (See the discussion below on searching)
+
+=item * B<all_terms> give a description of every attribute for the entity. Each
+attribute has a B<tooltip> which is a human readable description about what the
+attribute is and does, a B<required> field which, if set to '1', indicates that
+the attribute is mandatory, a B<read_only> field which indicates that the
+attribute can be read, but cannot be written back to LDAP and a constraint
+
+=back
+
+The B<constraint> provides simple information about the type of Attribute.
+
+An attribute can either be B<Str> or B<Int> indicating that it is a string
+or an integer respectively.
+
+After this, if the attribute can accept multiple values (an array of values)
+then it will be described as either B<ArrayRef[Int]> or B<ArrayRef[Str]>.
+
+Finally, if the attribute is optional it is given a B<Maybe>. e.g. B<Maybe[Int]>,
+B<Maybe[Str]> or even B<Maybe[ArrayRef[Str]]> (the final one means an optional
+attribute which takes an array of strings)
+
+The Meta Data for an entity can be modified through the Middleware administration
+system.
+
+=head2 Searching URL B<< /rest/<entity> >>
+
+The search URL is the same as the base url for an entity, the only difference is
+that search attributes are provided. If no search terms are provided then the
+search will return no items.
+
+The B<search_terms> part of the meta data indicates which attributes may be used
+to carry out searchs. If a search is made with an attribute which is not in
+this list then an error is returned.
+
+Generally only attributes which are stored on the NCD LDAP server will be included
+in the search terms.
+
+A search is always made using the B<GET> HTTP method and the search terms are
+provided as URL encoded parameters. e.g. a search for a user with surname 'Docherty'
+would use the URL B</rest/User?surname=docherty>
+
+When combining search terms they are B<AND>ed together, e.g. a search for
+User with surname 'Docherty' and firstname 'Ian' would be made to URL
+B</rest/User?surname=docherty&given_name=ian> and this would only return records
+that match both conditions, it would not return, for example, the record for
+'John Docherty'.
+
+If a search with a wildcard ending is required then it uses the same terminology
+as LDAP. For if you were not sure of Ashleigh Smith's first name you could search
+for B</rest/User?surname=smith&given_name=ash*> where the B<*> indicates a wildcard
+ending.
+
+The following example shows data returned from a search for consoles.
+
+  {
+      meta_data => {
+        ...
+      },
+      data => [
+        {
+          find_url    => 'http://lonlx20575:3005/rest/console/testing_995',
+          nonce       => undef,
+          data        => {
+            terminal_port     => '34',
+            admin_port        => '222',
+            hostname          => 'testing_995',
+            terminal_server   => 'ts_test_995'
+          }
+        },
+        {
+          find_url    => 'http://lonlx20575:3005/rest/console/testing_1000',
+          nonce       => undef,
+          data        => {
+            terminal_port     => '1000',
+            admin_port        => '123',
+            hostname          => 'testing_1000',
+            terminal_server   => 'ts_test_1000'
+          }
+        }
+      ],
+    urls => {
+      base_url    => 'http://lonlx20575:3005/rest/console',
+      home_url    => 'http://lonlx20575:3005/rest/'
+    }
+  }
+
+The data for each Console is returned in the outer B<data> array, each entry in the array
+contains the following.
+
+=over
+
+=item * a B<find_url> which gives the URL to display all details for this record
+including fields that may not be returned in the search.
+
+=item * a B<nonce> which is not of relevance to a search but is of use later on (see the B<find>
+section)
+
+=item * the actual B<data> for the record, with the values for each attribute.
+
+=back
+
+Note that a search will only accept a search on those terms which are defined in
+the meta-data B<search_terms> list and will only return these terms in the data
+with the search results.
+
+In order to obtain all fields for an individual record you must carry out a
+subsequent B<find> command (see below).
+
+=head2 Find a record URL B<< /rest/<entity>/<key> >> GET method
+
+This returns an individual record based on it's primary key. e.g. to return the
+single user record for 'Ian Docherty' the URL would be B</rest/user/docherti>
+
+There is a slight difference to the data returned by a find and that by a search.
+A find for console B<testing_995> at the URL B</rest/console/testing_995> would
+return data similar to the following.
+
+  {
+    find_url => 'http://lonlx20575:3005/rest/console/testing_995',
+    meta_data => {
+     ...
+    },
+    nonce => 'LgFtdt3dRYG93r2kjbSIrA',
+    data => {
+      terminal_port => '34',
+      admin_port => '222',
+      hostname => 'testing_995',
+      terminal_server => 'ts_test_995'
+    }
+    urls => {
+      base_url => 'http://lonlx20575:3005/rest/console',
+      home_url => 'http://lonlx20575:3005/rest/'
+    }
+  }
+
+There are a few significant differences here from the search results.
+
+Obviously the find only returns a single record, but all the B<data> fields
+will be present, even those that are not derived from the B<NCD LDAP> server.
+
+Also present is the B<nonce>. This is a code that can be thought of as
+representing the current version of the record on LDAP. If the record is
+changed, the nonce will also change. In this way if the record is modified
+then it can be detected by a change in the nonce.
+
+Certain operations on a record (such as update or delete) require that the
+nonce is supplied and that the nonce represents the current version of
+the record on LDAP. If the nonce is not supplied or the values do not
+match then the operation is not allowed.
+
+The normal sequence of events then to locate and modify a record would
+be as follows.
+
+=over
+
+=item * Carry out a B<search> for a record
+
+=item * Do a B<find> for the individual record thus located
+
+=item * locally modify the record
+
+=item * do an B<update> of the record (supplying the nonce)
+
+=back
+
+In the unlikely event that two people attempt to modify the same record
+at the same time, the first to carry out the update will succeed. The
+second person's update will however fail since the nonce they have no
+longer matches the record stored on LDAP. This will produce an error on
+the update. They now have the option of re-reading the record, verifying
+the new data and either saving their changes or accepting the other
+persons changes. This should be coded as part of the application layer.
+
+=head2 Update or Create a record URL B<< /rest/<entity>/<key> >> PUT method
+
+The B<update> and B<create> operations are idempotent and so they use the HTTP
+B<PUT> method.
+
+The only significant difference between creating a record and updating a record
+is that when a record is created then all mandatory fields should be provided
+whereas on updating a record only those fields that need to be changed need to
+be provided, all others need not be supplied.
+
+The request body of a PUT to create a new console might look similar to the
+following.
+
+  {
+    terminal_port   => 997,
+    admin_port      => 97,
+    terminal_server => ts_test_997
+  }
+
+The URL to PUT this data to is the same for both B<create> and B<update>,
+B<< /rest/console/testing_997 >> where B<testing_997> is the B<host-name>
+(the B<key> for the entity B<Console>)
+
+On success, the API will respond with something similar to the following.
+
+  {
+    meta_data => {
+      ...
+    },
+    data => {
+      terminal_port   => 997,
+      hostname        => 'testing_997',
+      admin_port      => 97,
+      terminal_server => 'ts_test_997'
+    },
+    urls => {
+      base_url        => 'http://localhost/rest/console',
+      home_url        => 'http://localhost/rest/'
+    },
+    find_url          => 'http://localhost/rest/console/testing_997'
+  }
+
+=head2 Delete a record URL B<< /rest/<entity>/<key> >> DELETE method
+
+This deletes an individual record based on it's primary key. e.g. to delete the
+single user record for 'Ian Docherty' the URL would be B</rest/user/docherti>
+and the HTTP method would be B<DELETE>.
+
+On success, the API will respond with something similar to the following.
+
+    meta_data => {
+      ...
+    },
+    data => {
+      find_url          => 'http://localhost/rest/console/testing_997',
+      nonce             => 'Dz0gTfPQzPZIUlnoa1w03A',
+      data              => {
+        terminal_port     => 997,
+        hostname          => 'testing_997',
+        admin_port        => 97,
+        terminal_server   => 'ts_test_997'
+      }
+    },
+    urls => {
+      base_url        => 'http://localhost/rest/console',
+      home_url        => 'http://localhost/rest/'
+    }
+
+Note that the delete operation returns the content of the record that
+has just been deleted.
+
+=head2 Error messages
+
+Any of the above API calls could return one or more errors. The format of an error
+message is as follows.
+
+  errors => [
+    {
+      message   => 'Could not find that record.',
+      code      => 1001
+    }
+  ]
+
+Where more than one error has occurred the API will return all errors, for
+example.
+
+  errors => [
+    {
+      message       => "You cannot update an existing record without a valid nonce",
+      code          => 1005,
+    },
+    {
+      message       => "Cannot update attribute. It might be read-only.",
+      code          => 1009,
+      attribute     => 'admin_port',
+
+  ]
+
+The B<code> is a machine readable number, the B<message> is a human readable form
+of the message. Various other fields may be present depending upon the error, for
+example B<attribute> may be specified if the error is in one of the attributes.
+
+The following error codes are defined
+
+  1000 - General error, unspecified
+  1001 - Record cannot be found
+  1002 - Record cannot be created
+  1003 - Record cannot be deleted
+  1004 - Missing mandatory attribute
+  1005 - Missing nonce
+  1006 - Nonce has changed
+  1007 - Incorrect type for attribute
+  1008 - Illegal attempt to modify key
+  1009 - Cannot update field
+  1010 - Record/Attribute not found on NCD
+  1011 - Connection to LDAP failed
+  1012 - Cannot update LDAP record
+  1013 - Cannot update LDAP field
+  1014 - Cannot delete LDAP record
+  1015 - Rollback to before error failed
+  1016 - Invalid attribute
+  1017 - Use of unknown/illegal search term
+
+=head1 AUTHOR
+
+Ian Docherty
+
+=head1 LICENSE
+
+Copyright (c) 2011 Nomura Holdings, Inc. All rights reserved.
+
+=cut
+1;
+

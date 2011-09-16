@@ -1,0 +1,9 @@
+#!/bin/bash
+export CATALYST_ENGINE='HTTP::Prefork'
+export DBIC_TRACE=1
+export CATALYST_DEBUG=1
+# replace the 'x' with your unique user digit
+export CATALYST_PORT=30x5
+export CATALYST_RELOAD=1
+script/nomura_eps_ns_api_web_server.pl -k
+
